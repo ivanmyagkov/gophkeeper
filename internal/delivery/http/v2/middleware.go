@@ -3,6 +3,7 @@ package v2
 import (
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -38,9 +39,9 @@ func (h *Handler) checkUserIdentity(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		fmt.Println("TOKEN: " + token)
-
 		userID, err := h.tokenManager.Parse(token)
 		if err != nil {
+			log.Println(err)
 			return echo.NewHTTPError(http.StatusUnauthorized, "Please, provide valid credentials")
 		}
 

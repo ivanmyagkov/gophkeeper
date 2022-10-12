@@ -38,6 +38,7 @@ func (m *Manager) NewJWT(userID string, ttl time.Duration) (string, error) {
 }
 
 func (m *Manager) Parse(accessToken string) (string, error) {
+
 	token, err := jwt.Parse(accessToken, func(token *jwt.Token) (i interface{}, err error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])

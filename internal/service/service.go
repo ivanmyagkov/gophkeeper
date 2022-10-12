@@ -36,6 +36,15 @@ type Materials interface {
 	GetAllTextData(ctx context.Context, userID int) ([]domain.TextData, error)
 	UpdateTextDataByID(ctx context.Context, userID int, data domain.TextData) error
 	CreateNewTextData(ctx context.Context, userID int, data domain.TextData) error
+	CreateNewCredData(ctx context.Context, id int, data domain.CredData) error
+	GetAllCredData(ctx context.Context, userID int) ([]domain.CredData, error)
+	UpdateCredDataByID(ctx context.Context, userID int, data domain.CredData) error
+	CreateNewCardData(ctx context.Context, id int, data domain.CardData) error
+	GetAllCardData(ctx context.Context, userID int) ([]domain.CardData, error)
+	UpdateCardDataByID(ctx context.Context, userID int, data domain.CardData) error
+	CreateNewBlobData(ctx context.Context, id int, data domain.BlobData) error
+	GetAllBlobData(ctx context.Context, userID int) ([]domain.BlobData, error)
+	UpdateBlobDataByID(ctx context.Context, userID int, data domain.BlobData) error
 }
 
 //**********************************************************************************************************************

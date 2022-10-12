@@ -44,7 +44,7 @@ func Run() {
 		Storages:        storages,
 		Hasher:          hasher,
 		TokenManager:    tokenManager,
-		AccessTokenTTL:  1 * time.Minute,
+		AccessTokenTTL:  10 * time.Minute,
 		RefreshTokenTTL: 40 * 24 * time.Hour,
 	}
 

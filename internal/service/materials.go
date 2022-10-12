@@ -26,5 +26,41 @@ func (s *MaterialsService) UpdateTextDataByID(ctx context.Context, userID int, d
 }
 
 func (s *MaterialsService) CreateNewTextData(ctx context.Context, userID int, data domain.TextData) error {
-	return s.storage.UpdateTextDataByID(ctx, userID, data)
+	return s.storage.CreateNewTextData(ctx, userID, data)
+}
+
+func (s *MaterialsService) GetAllCredData(ctx context.Context, userID int) ([]domain.CredData, error) {
+	return s.storage.GetAllCredData(ctx, userID)
+}
+
+func (s *MaterialsService) UpdateCredDataByID(ctx context.Context, userID int, data domain.CredData) error {
+	return s.storage.UpdateCredDataByID(ctx, userID, data)
+}
+
+func (s *MaterialsService) CreateNewCredData(ctx context.Context, userID int, data domain.CredData) error {
+	return s.storage.CreateNewCredData(ctx, userID, data)
+}
+
+func (s *MaterialsService) GetAllCardData(ctx context.Context, userID int) ([]domain.CardData, error) {
+	return s.storage.GetAllCardData(ctx, userID)
+}
+
+func (s *MaterialsService) UpdateCardDataByID(ctx context.Context, userID int, data domain.CardData) error {
+	return s.storage.UpdateCardDataByID(ctx, userID, data)
+}
+
+func (s *MaterialsService) CreateNewCardData(ctx context.Context, userID int, data domain.CardData) error {
+	return s.storage.CreateNewCardData(ctx, userID, data)
+}
+
+func (s *MaterialsService) GetAllBlobData(ctx context.Context, userID int) ([]domain.BlobData, error) {
+	return s.storage.GetAllBlobData(ctx, userID)
+}
+
+func (s *MaterialsService) UpdateBlobDataByID(ctx context.Context, userID int, data domain.BlobData) error {
+	return s.storage.UpdateBlobDataByID(ctx, userID, data)
+}
+
+func (s *MaterialsService) CreateNewBlobData(ctx context.Context, userID int, data domain.BlobData) error {
+	return s.storage.CreateNewBlobData(ctx, userID, data)
 }
