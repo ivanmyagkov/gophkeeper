@@ -27,7 +27,7 @@ func Run() {
 		log.Fatal(err)
 	}
 
-	db, err := newInPSQL(cfg.DatabaseDSN)
+	db, err := NewInPSQL(cfg.DatabaseDSN)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -81,7 +81,7 @@ func Run() {
 	log.Println("Server shutdown gracefully")
 }
 
-func newInPSQL(databaseDSN string) (*sql.DB, error) {
+func NewInPSQL(databaseDSN string) (*sql.DB, error) {
 	db, err := sql.Open("postgres", databaseDSN)
 	if err != nil {
 		log.Fatal(err)

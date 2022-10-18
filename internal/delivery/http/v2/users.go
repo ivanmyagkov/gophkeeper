@@ -2,6 +2,7 @@ package v2
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"time"
 
@@ -94,6 +95,7 @@ func (h Handler) userSignIn(c echo.Context) error {
 		if errors.Is(err, domain.ErrUserNotFound) {
 			return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 		}
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
@@ -140,6 +142,7 @@ func (h Handler) userRefresh(c echo.Context) error {
 		if errors.Is(err, domain.ErrUserNotFound) {
 			return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 		}
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
