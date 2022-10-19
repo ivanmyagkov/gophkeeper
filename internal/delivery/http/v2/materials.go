@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -41,6 +42,9 @@ func (h Handler) getAllTextData(c echo.Context) error {
 			return echo.NewHTTPError(http.StatusInternalServerError)
 		}
 	}
+	if len(dataArray) == 0 {
+		return c.NoContent(http.StatusNoContent)
+	}
 
 	return c.JSON(http.StatusOK, dataArray)
 }
@@ -62,7 +66,7 @@ func (h Handler) UpdateTextDataByID(c echo.Context) error {
 }
 
 type newTextDataInput struct {
-	Text     string `json:"login"`
+	Text     string `json:"text"`
 	Metadata string `json:"metadata"`
 }
 
@@ -71,8 +75,10 @@ func (h Handler) CreateNewTextData(c echo.Context) error {
 
 	var inp newTextDataInput
 	if err := c.Bind(&inp); err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+	log.Println(inp.Text)
 
 	err := h.services.Materials.CreateNewTextData(c.Request().Context(), userID, domain.TextData{
 		ID:       -1, //this field fill be ignored
@@ -129,6 +135,7 @@ func (h Handler) CreateNewCredData(c echo.Context) error {
 
 	var inp newCredDataInput
 	if err := c.Bind(&inp); err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 

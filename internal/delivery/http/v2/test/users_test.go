@@ -93,14 +93,14 @@ func (ht *HandlersTestSuite) TestHandler_userSignUp() {
 			want:  want{code: 400},
 		},
 		{
+			name:  "success",
+			value: `{"login":"user", "password":"user"}`,
+			want:  want{code: 200},
+		},
+		{
 			name:  "already exists",
 			value: `{"login":"user", "password":"user"}`,
 			want:  want{code: 409},
-		},
-		{
-			name:  "success",
-			value: `{"login":"user1", "password":"user1"}`,
-			want:  want{code: 200},
 		},
 	}
 	for _, tt := range tests {
@@ -134,7 +134,7 @@ func (ht *HandlersTestSuite) TestHandler_userSignIn() {
 		},
 		{
 			name:  "success",
-			value: `{"login":"user1", "password":"user1"}`,
+			value: `{"login":"user", "password":"user"}`,
 			want:  want{code: 200},
 		},
 	}
@@ -179,7 +179,7 @@ func (ht *HandlersTestSuite) TestHandler_userRefresh() {
 				RefreshToken: "",
 			}
 			if tt.value == "" {
-				respSing, _ := client.R().SetHeader("Content-Type", "application/json; charset=utf8").SetBody(`{"login":"user1", "password":"user1"}`).Post(ht.ts.URL + "/api/user/auth/sign-in")
+				respSing, _ := client.R().SetHeader("Content-Type", "application/json; charset=utf8").SetBody(`{"login":"user", "password":"user"}`).Post(ht.ts.URL + "/api/user/auth/sign-in")
 				json.Unmarshal(respSing.Body(), &res)
 			} else {
 				res.RefreshToken = tt.value
