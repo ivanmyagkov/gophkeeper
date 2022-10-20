@@ -44,7 +44,7 @@ func Run() {
 		Storages:        storages,
 		Hasher:          hasher,
 		TokenManager:    tokenManager,
-		AccessTokenTTL:  10 * time.Minute,
+		AccessTokenTTL:  1 * time.Minute,
 		RefreshTokenTTL: 40 * 24 * time.Hour,
 	}
 
@@ -131,8 +131,7 @@ func createTable(db *sql.DB) error {
 		id serial primary key,
 		user_id int not null references users(id),
 		card_number text not null unique,
-		"month" text not null,
-		"year" text not null,
+		exp_date timestamp not null,
 		cvc text not null,
 		"name" text,
 		surname text,

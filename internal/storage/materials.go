@@ -151,7 +151,7 @@ func (r *MaterialsStorage) CreateNewCredData(ctx context.Context, userID int, da
 
 func (r *MaterialsStorage) GetAllCardData(ctx context.Context, userID int) ([]domain.CardData, error) {
 
-	getTextDataStmt, err := r.db.PrepareContext(ctx, "SELECT id,card_number, month, year, cvc, name, surname,metadata FROM card_data WHERE user_id=$1;")
+	getTextDataStmt, err := r.db.PrepareContext(ctx, "SELECT id,card_number, exp_date, cvc, name, surname,metadata FROM card_data WHERE user_id=$1;")
 	if err != nil {
 		return nil, &StatementPSQLError{Err: err}
 	}
@@ -166,7 +166,7 @@ func (r *MaterialsStorage) GetAllCardData(ctx context.Context, userID int) ([]do
 	allTextData := make([]domain.CardData, 0)
 	for rows.Next() {
 		var textData domain.CardData
-		err = rows.Scan(&textData.ID, &textData.CardNumber, &textData.Month, &textData.Year, &textData.CVC, &textData.Name, &textData.Surname, &textData.Metadata)
+		err = rows.Scan(&textData.ID, &textData.CardNumber, &textData.ExpDate, &textData.CVC, &textData.Name, &textData.Surname, &textData.Metadata)
 		if err != nil {
 			switch {
 			case errors.Is(err, sql.ErrNoRows):
@@ -188,13 +188,13 @@ func (r *MaterialsStorage) GetAllCardData(ctx context.Context, userID int) ([]do
 }
 
 func (r *MaterialsStorage) UpdateCardDataByID(ctx context.Context, userID int, data domain.CardData) error {
-	updateTextDataStmt, err := r.db.PrepareContext(ctx, "UPDATE card_data SET card_number = $1, month = $2,year = $3, cvc = $4,name = $5, surname = $6, metadata = $7 WHERE user_id = $8 and id = $9;")
+	updateTextDataStmt, err := r.db.PrepareContext(ctx, "UPDATE card_data SET card_number = $1, exp_date=$2, cvc = $3,name = $4, surname = $5, metadata = $6 WHERE user_id = $7 and id = $8;")
 	if err != nil {
 		return &StatementPSQLError{Err: err}
 	}
 	defer updateTextDataStmt.Close()
 
-	_, err = updateTextDataStmt.ExecContext(ctx, data.CardNumber, data.Month, data.Year, data.CVC, data.Name, data.Surname, data.Metadata, userID, data.ID)
+	_, err = updateTextDataStmt.ExecContext(ctx, data.CardNumber, data.ExpDate, data.CVC, data.Name, data.Surname, data.Metadata, userID, data.ID)
 	if err != nil {
 		return &ExecutionPSQLError{Err: err}
 	}
@@ -202,13 +202,13 @@ func (r *MaterialsStorage) UpdateCardDataByID(ctx context.Context, userID int, d
 }
 
 func (r *MaterialsStorage) CreateNewCardData(ctx context.Context, userID int, data domain.CardData) error {
-	crUserStmt, err := r.db.PrepareContext(ctx, "INSERT INTO card_data (user_id, card_number, month, year, cvc, name, surname, metadata) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);")
+	crUserStmt, err := r.db.PrepareContext(ctx, "INSERT INTO card_data (user_id, card_number, exp_date, cvc, name, surname, metadata) VALUES ($1, $2, $3, $4, $5, $6, $7);")
 	if err != nil {
 		return &StatementPSQLError{Err: err}
 	}
 	defer crUserStmt.Close()
 
-	if _, err := crUserStmt.ExecContext(ctx, userID, data.CardNumber, data.Month, data.Year, data.CVC, data.Name, data.Surname, data.Metadata); err != nil {
+	if _, err := crUserStmt.ExecContext(ctx, userID, data.CardNumber, data.ExpDate, data.CVC, data.Name, data.Surname, data.Metadata); err != nil {
 		return &ExecutionPSQLError{Err: err}
 	}
 

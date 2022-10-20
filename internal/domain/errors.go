@@ -17,3 +17,7 @@ var (
 var (
 	ErrDataNotFound = errors.New("data was not found")
 )
+
+var (
+	ErrInternalServerError = errors.New("internal server error")
+)

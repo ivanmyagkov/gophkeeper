@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 
@@ -185,13 +186,12 @@ func (h Handler) UpdateCardDataByID(c echo.Context) error {
 }
 
 type newCardDataInput struct {
-	CardNumber string `json:"card_number"`
-	Month      string `json:"month"`
-	Year       string `json:"year"`
-	CVC        string `json:"cvc"`
-	Name       string `json:"name"`
-	Surname    string `json:"surname"`
-	Metadata   string `json:"metadata"`
+	CardNumber string    `json:"card_number"`
+	ExpDate    time.Time `json:"exp_date"`
+	CVC        string    `json:"cvc"`
+	Name       string    `json:"name"`
+	Surname    string    `json:"surname"`
+	Metadata   string    `json:"metadata"`
 }
 
 func (h Handler) CreateNewCardData(c echo.Context) error {
@@ -205,14 +205,13 @@ func (h Handler) CreateNewCardData(c echo.Context) error {
 	err := h.services.Materials.CreateNewCardData(c.Request().Context(), userID, domain.CardData{
 		ID:         -1, //this field fill be ignored
 		CardNumber: inp.CardNumber,
-		Month:      inp.Month,
-		Year:       inp.Year,
+		ExpDate:    inp.ExpDate,
 		CVC:        inp.CVC,
 		Name:       inp.Name,
 		Surname:    inp.Surname,
 		Metadata:   inp.Metadata,
 	})
-
+	log.Println(parseExpireDate(inp.ExpDate.String()))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
@@ -289,4 +288,12 @@ func (h Handler) CreateNewBlobData(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	return c.NoContent(http.StatusOK)
+}
+
+func parseExpireDate(exp string) time.Time {
+	date, err := time.Parse("01/06", exp)
+	if err != nil {
+		log.Panicln(err.Error())
+	}
+	return date
 }

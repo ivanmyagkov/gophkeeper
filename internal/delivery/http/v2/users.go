@@ -82,9 +82,10 @@ type signUpInput struct {
 func (h Handler) userSignIn(c echo.Context) error {
 	var inp signUpInput
 	if err := c.Bind(&inp); err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-
+	log.Println(inp)
 	//log in
 	tokens, err := h.services.Users.SignIn(c.Request().Context(), service.UserSignInInput{
 		Login:    inp.Login,
