@@ -176,7 +176,7 @@ func (h Handler) UpdateCardDataByID(c echo.Context) error {
 	if err := c.Bind(&inp); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-
+	log.Println(inp.ExpDate)
 	err := h.services.Materials.UpdateCardDataByID(c.Request().Context(), userID, inp)
 
 	if err != nil {
@@ -201,7 +201,6 @@ func (h Handler) CreateNewCardData(c echo.Context) error {
 	if err := c.Bind(&inp); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-
 	err := h.services.Materials.CreateNewCardData(c.Request().Context(), userID, domain.CardData{
 		ID:         -1, //this field fill be ignored
 		CardNumber: inp.CardNumber,

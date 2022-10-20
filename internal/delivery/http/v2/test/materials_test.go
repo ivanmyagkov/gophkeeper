@@ -288,13 +288,13 @@ func (ht *HandlersTestSuite) TestHandler_CreateNewCardData() {
 		{
 			name:  "body is wrong",
 			login: `{"login":"user", "password":"user"}`,
-			value: `{"card_number":12312312342,"exp_date":"04/25","cvc":"234","name":"rgrgr","surname":"rgrgrg","metadata":"user"}`,
+			value: `{"card_number":12312312342,"exp_date": "2002-01-01 00:00:00 +0000 UTC","cvc":"234","name":"rgrgr","surname":"rgrgrg","metadata":"user"}`,
 			want:  want{code: 400},
 		},
 		{
 			name:  "success",
 			login: `{"login":"user", "password":"user"}`,
-			value: `{"card_number":"12312312342","month":"04","year":"2012","cvc":"234","name":"rgrgr","surname":"rgrgrg","metadata":"user"}`,
+			value: `{"card_number":"12312312342","exp_date": "2002-01-01 00:00:00 +0000 UTC","cvc":"234","name":"rgrgr","surname":"rgrgrg","metadata":"user"}`,
 			want:  want{code: 200},
 		},
 	}

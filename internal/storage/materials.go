@@ -207,7 +207,6 @@ func (r *MaterialsStorage) CreateNewCardData(ctx context.Context, userID int, da
 		return &StatementPSQLError{Err: err}
 	}
 	defer crUserStmt.Close()
-
 	if _, err := crUserStmt.ExecContext(ctx, userID, data.CardNumber, data.ExpDate, data.CVC, data.Name, data.Surname, data.Metadata); err != nil {
 		return &ExecutionPSQLError{Err: err}
 	}
